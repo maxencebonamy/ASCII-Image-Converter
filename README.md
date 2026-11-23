@@ -1,22 +1,92 @@
-# ASCII-Image-Converter
+# ASCII Image Converter
 
+Convert an image into ASCII art.
 
-## Description
+A small Python script that resizes an image, maps each pixel to a character according to its brightness, and writes the result to a text file. It is meant for anyone who wants a quick text rendering of a picture.
 
-![image](https://user-images.githubusercontent.com/66129931/155897899-7aa64b23-7520-4a42-bd65-5d858e1d3bdf.png)
+## Table of contents
 
-## Features
+- [ASCII Image Converter](#ascii-image-converter)
+	- [Table of contents](#table-of-contents)
+	- [How it works](#how-it-works)
+	- [Tech stack](#tech-stack)
+	- [Repository structure](#repository-structure)
+	- [Prerequisites](#prerequisites)
+	- [Installation](#installation)
+	- [Configuration](#configuration)
+	- [Running locally](#running-locally)
+	- [Useful scripts](#useful-scripts)
+	- [License](#license)
 
-![image](https://user-images.githubusercontent.com/66129931/156808682-0768a182-d563-4df8-856a-65ec60a722e0.png)
+## How it works
 
-## Dependencies
+1. **Load**: the image is read from the `input` folder with Pillow.
+2. **Resize**: the image is scaled to `WIDTH` characters. The height follows the original ratio, multiplied by 8/21 to compensate for characters being taller than they are wide.
+3. **Brightness**: the value of each pixel is the average of its channels.
+4. **Mapping**: the value is mapped to a character of the `ASCII` string, which is sorted from lightest to darkest. With `COLOR_INVERSION` enabled, the string is reversed.
+5. **Output**: the result is printed to the console and written to `output/<image name>.txt`.
 
-![image](https://user-images.githubusercontent.com/66129931/155897915-07b237e6-b17d-4c7c-aec6-a0d7b2172c1c.png)
+## Tech stack
 
-## Example
+| Layer | Technologies |
+| --- | --- |
+| Language | Python 3 |
+| Image processing | Pillow |
 
-![example](https://user-images.githubusercontent.com/66129931/155899216-0ac350f4-1ae4-491c-8f4f-30db3570f2f5.jpg)
+## Repository structure
 
-![image](https://user-images.githubusercontent.com/66129931/156809554-0cd3ec4c-ce5f-4397-8b00-741d4088a2f1.png)
+```
+.
+├── input/        Source images
+├── output/       Generated text files
+├── config.py     Conversion settings
+└── main.py       Conversion script
+```
 
-![image](https://user-images.githubusercontent.com/66129931/156809788-94a5274b-6d2f-44df-adbb-04e48f0cf622.png)
+The `.idea` folder contains PyCharm project files.
+
+## Prerequisites
+
+- [Python](https://www.python.org/) 3
+- [Pillow](https://python-pillow.org/) (`pip install pillow`)
+
+## Installation
+
+```bash
+git clone git@github.com:maxencebonamy/ASCII-Image-Converter.git
+cd ASCII-Image-Converter
+pip install pillow
+```
+
+## Configuration
+
+Settings are constants in `config.py`.
+
+| Variable | Description | Example |
+| --- | --- | --- |
+| `WIDTH` | Width of the output, in characters | `100` |
+| `ASCII` | Characters ranked from lightest to darkest | `" .'`^\",:;Il!i>..."` |
+| `IMAGE_NAME` | Name of the file to convert, located in `input` | `"example.jpg"` |
+| `COLOR_INVERSION` | Invert the brightness mapping | `True` |
+
+`IMAGE_NAME` must have a three-letter extension: the output name is built by removing its last four characters.
+
+## Running locally
+
+Put the image in the `input` folder, set `IMAGE_NAME` in `config.py`, then run:
+
+```bash
+python main.py
+```
+
+The text is printed to the console and saved to `output/<image name>.txt`. The repository ships with `input/example.jpg` and its result in `output/example.txt`.
+
+## Useful scripts
+
+| Command | Effect |
+| --- | --- |
+| `python main.py` | Convert the image set in `IMAGE_NAME` |
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
